@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 import { Appbar } from 'react-native-paper';
-import Post from './components/Post';
+import Post from '../components/Post';
 
 const MOCK_POSTS = [
     {
@@ -12,9 +12,37 @@ const MOCK_POSTS = [
         likes: 42,
     },
     {
-        id: '2',
+        id: '3',
         user: 'janedoe',
-        imageUrl: 'https://picsum.photos/seed/2/400/400',
+        imageUrl: 'https://picsum.photos/seed/3/400/400',
+        caption: 'Amazing view!',
+        likes: 28,
+    },
+    {
+        id: '4',
+        user: 'johndoe',
+        imageUrl: 'https://picsum.photos/seed/4/400/400',
+        caption: 'Beautiful day!',
+        likes: 42,
+    },
+    {
+        id: '5',
+        user: 'janedoe',
+        imageUrl: 'https://picsum.photos/seed/5/400/400',
+        caption: 'Amazing view!',
+        likes: 28,
+    },
+    {
+        id: '6',
+        user: 'johndoe',
+        imageUrl: 'https://picsum.photos/seed/6/400/400',
+        caption: 'Beautiful day!',
+        likes: 42,
+    },
+    {
+        id: '7',
+        user: 'janedoe',
+        imageUrl: 'https://picsum.photos/seed/107/400/400',
         caption: 'Amazing view!',
         likes: 28,
     },
