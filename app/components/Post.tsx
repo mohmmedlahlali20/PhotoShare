@@ -53,18 +53,28 @@ export default function Post({ post }: PostProps) {
 
 const styles = StyleSheet.create({
   card: {
-    marginBottom: 16,
+    marginBottom: 20,
+    borderRadius: 10,
+    backgroundColor: '#fff',
     elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   image: {
     height: 300,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   actions: {
     justifyContent: 'flex-start',
+    paddingHorizontal: 10,
   },
   likes: {
     fontWeight: 'bold',
     marginBottom: 4,
+    color: '#333',
   },
   captionContainer: {
     flexDirection: 'row',
@@ -73,5 +83,6 @@ const styles = StyleSheet.create({
   username: {
     fontWeight: 'bold',
     marginRight: 8,
+    color: '#4CAF50',
   },
 });
