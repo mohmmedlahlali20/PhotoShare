@@ -3,34 +3,34 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@fir
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 
-export default function login() {
-  const [email, setEmail] = useState('mohmmedlaeh81@gmail.com');
-  const [password, setPassword] = useState('mohmmedlaeh81');
+export default function Register() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   const auth = FIREBASE_AUTH;
 
-  const handleLogin = async () => {
+
+
+  const register = async () => {
     setLoading(true);
 
     try {
-      const res = await signInWithEmailAndPassword(auth, email, password);
+      const res = await createUserWithEmailAndPassword(auth, email, password);
       console.log(res);
-      alert('Welcome back!');
+      alert('Account created successfully! Check your email for verification.');
     } catch (err) {
       console.error(err);
-      alert('Error logging in: ' + err);
+      alert('Error registering: ' + err);
     } finally {
       setLoading(false);
     }
   };
 
-  
-
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView behavior='padding'>
-      <Text style={styles.title}>Welcome back to PhotoShare</Text>
+      <Text style={styles.title}>Welcome In PhotoShare</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -54,8 +54,8 @@ export default function login() {
         <ActivityIndicator size="large" color="#6200ee" style={styles.loader} />
       ) : (
         <View>
-          <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Login</Text>
+          <TouchableOpacity style={[styles.button, styles.secondaryButton]} onPress={register}>
+            <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
         </View>
       )}

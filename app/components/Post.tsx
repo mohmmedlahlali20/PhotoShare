@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
-import { Card, Title, Paragraph, IconButton } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
+import { Card, Title, Paragraph, IconButton, Avatar, useTheme } from 'react-native-paper';
 
 interface PostProps {
   post: {
@@ -8,24 +8,44 @@ interface PostProps {
     imageUrl: string;
     caption: string;
     likes: number;
+    color: string;
   };
 }
 
 export default function Post({ post }: PostProps) {
+  const theme = useTheme();
+
   return (
     <Card style={styles.card}>
-      <Card.Title title={post.user} />
-      <Card.Content>
-        <Image source={{ uri: post.imageUrl }} style={styles.image} />
-        <Paragraph>{post.caption}</Paragraph>
-      </Card.Content>
-      <Card.Actions>
-        <IconButton icon="heart-outline" onPress={() => {}} />
-        <IconButton icon="comment-outline" onPress={() => {}} />
-        <IconButton icon="share-outline" onPress={() => {}} />
+      <Card.Title
+        title={post.user}
+        left={(props) => <Avatar.Image {...props} source={{ uri: `https://i.pravatar.cc/150?u=${post.user}` }} />}
+        right={(props) => (
+          <IconButton
+            {...props}
+            icon="dots-vertical"
+            onPress={() => {
+              console.log('Options clicked');
+            }}
+          />
+        )}
+      />
+      <Card.Cover source={{ uri: post.imageUrl }} style={styles.image} />
+      <Card.Actions style={styles.actions}>
+        <IconButton
+          icon="heart-outline"
+          size={24}
+          onPress={() => {
+            console.log('Like clicked');
+          }}
+        />
       </Card.Actions>
       <Card.Content>
-        <Paragraph>{post.likes} likes</Paragraph>
+        <Paragraph style={styles.likes}>{post.likes} likes</Paragraph>
+        <View style={styles.captionContainer}>
+          <Title style={[styles.username, { color: post.color || theme.colors.primary }]}>{post.user}</Title>
+          <Paragraph>{post.caption}</Paragraph>
+        </View>
       </Card.Content>
     </Card>
   );
@@ -33,12 +53,25 @@ export default function Post({ post }: PostProps) {
 
 const styles = StyleSheet.create({
   card: {
-    marginBottom: 10,
+    marginBottom: 16,
+    elevation: 4,
   },
   image: {
-    width: '100%',
     height: 300,
-    resizeMode: 'cover',
+  },
+  actions: {
+    justifyContent: 'flex-start',
+  },
+  likes: {
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  captionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  username: {
+    fontWeight: 'bold',
+    marginRight: 8,
   },
 });
-
