@@ -13,37 +13,17 @@ const TabLayout: React.FC = () => {
   const { user, loading, logout } = useAuth();
   const router = useRouter();
 
-  console.log('====================================');
-  console.log(user);
-  console.log('====================================');
-
   useEffect(() => {
     if (!loading) {
       if (user) {
         router.push('/');
       } else {
-        router.push('/login');  
+        router.push('/Login');  
       }
     }
   }, [user, loading, router]);
 
-  const handleLogout = async () => {
-    Alert.alert(
-      'Déconnexion',
-      'Voulez-vous vraiment vous déconnecter ?',
-      [
-        { text: 'Annuler', style: 'cancel' },
-        {
-          text: 'Se déconnecter',
-          style: 'destructive',
-          onPress: async () => {
-            await logout();
-            router.push('/login'); 
-          },
-        },
-      ]
-    );
-  };
+
 
   return (
     <Tabs
@@ -60,7 +40,7 @@ const TabLayout: React.FC = () => {
         }),
       }}
     >
-      {user && (
+      
         <Tabs.Screen
           name="index"
           options={{
@@ -70,25 +50,15 @@ const TabLayout: React.FC = () => {
             ),
           }}
         />
-      )}
-
-      {user && (
-        <Tabs.Screen
-          name="logout"
-          options={{
-            title: 'Logout',
-            tabBarIcon: ({ color }) => (
-              <IconSymbol size={28} name="arrow.backward.circle.fill" color={color} />
-            ),
-            tabBarButton: (props) => (
-              <HapticTab
-                {...props}
-                onPress={handleLogout}  // Associe la fonction de déconnexion au bouton
-              />
-            ),
-          }}
+    
+      
+    <Tabs.Screen
+          name="profile"
+          
         />
-      )}
+    
+       
+    
     </Tabs>
   );
 };
