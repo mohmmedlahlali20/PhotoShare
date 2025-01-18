@@ -37,7 +37,7 @@ export default function Register() {
       const res = await createUserWithEmailAndPassword(auth, email, password);
       console.log(res);
       alert('Account created successfully! Check your email for verification.');
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
       setError('Error registering: ' + err.message);
       shakeAnimation();
