@@ -1,13 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Alert, ScrollView } from 'react-native';
 import { Appbar, Button, Text, useTheme, Avatar, Card, Title, Paragraph } from 'react-native-paper';
 import { useAuth } from '../context/authcontext';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function HomeScreen() {
   const { user, logout } = useAuth();
   const theme = useTheme();
+    const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+    useEffect(() => {
+        const getPermissions = async () => {
+          const { status } = await ImagePicker.requestCameraPermissionsAsync();
+          setHasPermission(status === 'granted');
+        };
+        getPermissions();
+      }, []);
+    
+      const handleCameraPress = async () => {
+        if (hasPermission) {
+          const result = await ImagePicker.launchCameraAsync();
+          if (!result.canceled) {
+            console.log('Image captured:', result);
+          }
+        } else {
+          alert('Permission to access camera is required.');
+        }
+      };
+  
 
   const handleLogout = () => {
     Alert.alert(
@@ -32,6 +53,8 @@ export default function HomeScreen() {
       <Appbar.Header style={styles.header}>
         <Appbar.Content title="Accueil" />
         <Appbar.Action icon="logout" onPress={handleLogout} />
+                <Appbar.Action icon="camera" color="#61DAFB" onPress={handleCameraPress} />
+        
       </Appbar.Header>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Card style={styles.welcomeCard}>
