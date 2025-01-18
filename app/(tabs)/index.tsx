@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, FlatList, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, FlatList, StyleSheet, SafeAreaView, StatusBar, Text } from 'react-native';
 import { Appbar, useTheme } from 'react-native-paper';
+import * as ImagePicker from 'expo-image-picker';
 import Post from '../components/Post';
 
 const MOCK_POSTS = [
@@ -56,13 +57,33 @@ const MOCK_POSTS = [
 
 export default function HomeScreen() {
   const theme = useTheme();
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const getPermissions = async () => {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      setHasPermission(status === 'granted');
+    };
+    getPermissions();
+  }, []);
+
+  const handleCameraPress = async () => {
+    if (hasPermission) {
+      const result = await ImagePicker.launchCameraAsync();
+      if (!result.canceled) {
+        console.log('Image captured:', result);
+      }
+    } else {
+      alert('Permission to access camera is required.');
+    }
+  };
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: '#1E1E1E' }]}>
       <StatusBar barStyle="light-content" backgroundColor="#2C2C2C" />
       <Appbar.Header style={styles.header}>
         <Appbar.Content title="PhotoShare" titleStyle={styles.headerTitle} />
-        <Appbar.Action icon="camera" color="#61DAFB" onPress={() => {}} />
+        <Appbar.Action icon="camera" color="#61DAFB" onPress={handleCameraPress} />
       </Appbar.Header>
       <FlatList
         data={MOCK_POSTS}
@@ -96,4 +117,3 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
   },
 });
-
