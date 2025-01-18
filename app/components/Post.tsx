@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import { Card, Title, Paragraph, IconButton, Avatar, useTheme } from 'react-native-paper';
+
+const { width } = Dimensions.get('window');
 
 interface PostProps {
   post: {
@@ -19,11 +21,19 @@ export default function Post({ post }: PostProps) {
     <Card style={styles.card}>
       <Card.Title
         title={post.user}
-        left={(props) => <Avatar.Image {...props} source={{ uri: `https://i.pravatar.cc/150?u=${post.user}` }} />}
+        titleStyle={styles.cardTitle}
+        left={(props) => (
+          <Avatar.Image
+            {...props}
+            size={40}
+            source={{ uri: `https://i.pravatar.cc/150?u=${post.user}` }}
+          />
+        )}
         right={(props) => (
           <IconButton
             {...props}
             icon="dots-vertical"
+  
             onPress={() => {
               console.log('Options clicked');
             }}
@@ -34,17 +44,33 @@ export default function Post({ post }: PostProps) {
       <Card.Actions style={styles.actions}>
         <IconButton
           icon="heart-outline"
+
           size={24}
           onPress={() => {
             console.log('Like clicked');
+          }}
+        />
+        <IconButton
+          icon="comment-outline"
+          size={24}
+          onPress={() => {
+            console.log('Comment clicked');
+          }}
+        />
+        <IconButton
+          icon="share-outline"
+
+          size={24}
+          onPress={() => {
+            console.log('Share clicked');
           }}
         />
       </Card.Actions>
       <Card.Content>
         <Paragraph style={styles.likes}>{post.likes} likes</Paragraph>
         <View style={styles.captionContainer}>
-          <Title style={[styles.username, { color: post.color || theme.colors.primary }]}>{post.user}</Title>
-          <Paragraph>{post.caption}</Paragraph>
+          <Title style={[styles.username, { color: post.color || '#61DAFB' }]}>{post.user}</Title>
+          <Paragraph style={styles.caption}>{post.caption}</Paragraph>
         </View>
       </Card.Content>
     </Card>
@@ -53,36 +79,50 @@ export default function Post({ post }: PostProps) {
 
 const styles = StyleSheet.create({
   card: {
-    marginBottom: 20,
-    borderRadius: 10,
-    backgroundColor: '#fff',
+    marginTop: 50,
+  
+    borderRadius: 15,
+    backgroundColor: '#2C2C2C',
     elevation: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    width: width - 32,
+    alignSelf: 'center',
+  },
+  cardTitle: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
   },
   image: {
-    height: 300,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    height: width - 32, 
+    margin:10,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
   },
   actions: {
     justifyContent: 'flex-start',
-    paddingHorizontal: 10,
+    paddingHorizontal: 8,
   },
   likes: {
     fontWeight: 'bold',
-    marginBottom: 4,
-    color: '#333',
+    marginBottom: 8,
+    color: '#FFFFFF',
   },
   captionContainer: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     alignItems: 'center',
   },
   username: {
     fontWeight: 'bold',
     marginRight: 8,
-    color: '#4CAF50',
+    color: '#61DAFB',
+  },
+  caption: {
+    color: '#CCCCCC',
+    flex: 1,
   },
 });
+
