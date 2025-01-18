@@ -38,9 +38,9 @@ export default function Login() {
       console.log(res);
 
       router.push('/(tabs)');
-    } catch (err) {
+    } catch (err:any) {
       console.error(err);
-      setError('Invalid email or password. Please try again.');
+      setError('Invalid email or password. Please try again.' );
       shakeAnimation();
     } finally {
       setLoading(false);
